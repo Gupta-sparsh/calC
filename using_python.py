@@ -1,6 +1,28 @@
 from tkinter import *
 root = Tk()
 root.title("calC")
+root.overrideredirect(1)
+root.resizable(0,0)
+
+##### for placing the windows in the center of the screen .
+window_height = 800
+window_width = 480
+
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+x_cordinate = int((screen_width/2) - (window_width/2))
+y_cordinate = int((screen_height/2) - (window_height/2))
+
+root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+#####
+##### for background
+#background_image = PhotoImage(file = "path\\")
+#background_label = Label(root, image=background_image)
+#background_label.place(x=0, y=0, relwidth=1, relheight=1)
+#####
+
+
 
 
 inp = Entry(root,width=45,borderwidth=3)
@@ -16,8 +38,7 @@ def fun_add():
 	try:
 		expression=eval(str(inp.get()))
 	except(SyntaxError):
-		inp.delete(0,END)
-		inp.insert(0,str(last_entry)+"+")
+		pass
 	else:
 		inp.delete(0,END)
 		inp.insert(0,str(expression)+"+")
@@ -26,8 +47,7 @@ def fun_subtract():
 	try:
 		expression=eval(str(inp.get()))
 	except(SyntaxError):
-		inp.delete(0,END)
-		inp.insert(0,str(last_entry)+"-")
+		pass
 	else:
 		inp.delete(0,END)
 		inp.insert(0,str(expression)+"-")
@@ -36,8 +56,7 @@ def fun_multiply():
 	try:
 		expression=eval(str(inp.get()))
 	except(SyntaxError):
-		inp.delete(0,END)
-		inp.insert(0,str(last_entry)+"*")
+		pass
 	else:
 		inp.delete(0,END)
 		inp.insert(0,str(expression)+"*")
@@ -46,13 +65,44 @@ def fun_divide():
 	try:
 		expression=eval(str(inp.get()))
 	except(SyntaxError):
-		inp.delete(0,END)
-		inp.insert(0,str(last_entry)+"/")
+		pass
 	else:
 		inp.delete(0,END)
 		inp.insert(0,str(expression)+"/")
 
+def catch(event):
+	if event.char == '0':
+		key_pressed(0)
+	elif event.char == '1':
+		key_pressed(1)
+	elif event.char == '2':
+		key_pressed(2)
+	elif event.char == '3':
+		key_pressed(3)
+	elif event.char == '4':
+		key_pressed(4)
+	elif event.char == '5':
+		key_pressed(5)
+	elif event.char == '6':
+		key_pressed(6)
+	elif event.char == '7':
+		key_pressed(7)
+	elif event.char == '8':
+		key_pressed(8)
+	elif event.char == '9':
+		key_pressed(9)
+	elif event.char =='*' :
+		fun_multiply()
+	elif event.char =='/':
+		fun_divide()
+	elif event.char =='-':
+		fun_subtract()
+	elif event.char =='+':
+		fun_add()
+
+
 	
+
 ##########
 
 b1 = Button(root, text="1", width=10, height=2,bg="black",font=("Helvetica",15),fg="white", relief="flat")
@@ -80,7 +130,7 @@ b8 = Button(root, text="8", width=10, height=2,bg="black",font=("Helvetica",15),
 b8.config(command=lambda:key_pressed(8))
 
 b9 = Button(root, text="9", width=10, height=2,bg="black",font=("Helvetica",15),fg="white", relief="flat")
-b8.config(command=lambda:key_pressed(9))
+b9.config(command=lambda:key_pressed(9))
 
 b0 = Button(root, text="0", width=10, height=2,bg="black",font=("Helvetica",15),fg="white", relief="flat")
 b0.config(command=lambda:key_pressed(0))
@@ -98,8 +148,10 @@ b_add = Button(root, text="+", width=10, height=2,bg="black",font=("Helvetica",1
 b_add.config(command=fun_add)
 
 b_equal =  Button(root, text="=", width=10, height=2,bg="black",font=("Helvetica",15),fg="white", relief="flat")
+b_equal.bind("<Key>",catch)
 
 b_period = Button(root, text=".", width=10, height=2,bg="black",font=("Helvetica",15),fg="white", relief="flat")
+b_period.bind("<Key>",catch)
 
 b_clear = Button(root,text="Clear")
 b_clear.config(command= lambda : inp.delete((END-1),END))
@@ -134,6 +186,8 @@ b_equal.grid(row=4, column=3,padx=1,pady=1)
 
 ########
 
+root.bind("<Key>",catch)
 root.mainloop()
+
 
 
